@@ -8,16 +8,7 @@ public class Queen extends Piece{
     }
 
     public int[][] getMove() {
-        int[][] moveBoard = {
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0}
-        };
+        int[][] moveBoard = board.getMoveBoard();
 
         moveBoard[coordinate.x][coordinate.y] = 1;
 

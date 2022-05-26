@@ -12,6 +12,13 @@ public class Board {
         resetMoveBoard();
     }
 
+    public Board(Board board){
+        pieceBoard = board.pieceBoard;
+        moveBoard = board.moveBoard;
+        pieceSelect = board.pieceSelect;
+        player = board.player;
+    }
+
     public Piece[][] getPieceBoard() { return pieceBoard; }
     public int[][] getMoveBoard() { return moveBoard; }
 
@@ -48,22 +55,64 @@ public class Board {
     }
 
     private boolean onBoard(Coordinate coordinate) {
-        if(coordinate.x >= 0 && coordinate.x < pieceBoard.length && coordinate.y >= 0 && coordinate.y < pieceBoard[coordinate.x].length) {
+        if(coordinate.x >= 0 && coordinate.x < pieceBoard.length && coordinate.y >= 0 && coordinate.y < pieceBoard[coordinate.x].length)
             return true;
-        }
         return false;
     }
 
-    public void clicOnBoard(Coordinate coordinate) {
-        if(!onBoard(coordinate)) {
+    private Coordinate findKing(PieceColor player) {
+        for (int x = 0; x < pieceBoard.length; ++x)
+            for (int y = 0; y < pieceBoard[x].length; ++y)
+                if (pieceBoard[x][y].getType() == PieceType.KING && pieceBoard[x][y].getColor() == player)
+                    return pieceBoard[x][y].getCoordinate();
+        return null;
+    }
 
-        }
-        else if(pieceBoard(coordinate) == pieceSelect) {
+    private int testCheck(PieceColor player) {
+        Coordinate king = findKing(player);
+        for (int x = 0; x < pieceBoard.length; ++x)
+            for (int y = 0; y < pieceBoard[x].length; ++y)
+                if (pieceBoard[x][y].getColor() != player && pieceBoard[x][y].getType() != PieceType.VOID) {
+                    moveBoard = pieceBoard[x][y].getMove();
+                }
+        if (moveBoard(king) == 0)
+            return 1;
+        else
+            return 0;
+    }
+
+    //checkMate
+
+    private void movePiece(Coordinate coordinate) {
+        pieceBoard[coordinate.x][coordinate.y] = pieceSelect;
+        pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = new Void(this, pieceSelect.getCoordinate());
+        pieceBoard[coordinate.x][coordinate.y].moved(coordinate);
+
+        resetMoveBoard();
+        if (player == PieceColor.WHITE)
+            player = PieceColor.BLACK;
+        else
+            player = PieceColor.WHITE;
+    }
+
+    public void clicOnBoard(Coordinate coordinate) {
+        if(!onBoard(coordinate));
+
+        else if(pieceBoard(coordinate) == pieceSelect)
             pieceSelect = null;
-        }
+
         else if (pieceSelect == null && pieceBoard(coordinate).getColor() == player) {
             pieceSelect = pieceBoard(coordinate);
             moveBoard = pieceSelect.getMove();
+
+            for (int x = 0; x < moveBoard.length; ++x)
+                for (int y = 0; y < moveBoard[x].length; ++y)
+                    if (moveBoard[x][y] == 2) {
+                        Board testBoard = new Board(this);
+                        testBoard.movePiece(pieceBoard[x][y].getCoordinate());
+                        moveBoard[x][y] *= testBoard.testCheck(pieceBoard[x][y].getColor());
+                    }
+
         }
         else if (pieceSelect != null && moveBoard(coordinate) == 2) {
 

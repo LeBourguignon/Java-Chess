@@ -8,16 +8,7 @@ public class Bishop extends Piece{
     }
 
     public int[][] getMove() {
-        int[][] moveBoard = {
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0},
-                {0, 0, 0, 0, 0, 0, 0, 0}
-        };
+        int[][] moveBoard = board.getMoveBoard();
 
         moveBoard[coordinate.x][coordinate.y] = 1;
 

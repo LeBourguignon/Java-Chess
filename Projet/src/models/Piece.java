@@ -5,7 +5,6 @@ public abstract class Piece {
     protected Coordinate coordinate;
     protected PieceType type;
     protected PieceColor color;
-    protected PieceState state;
     protected int nbMove = 0;
 
     protected int[] Tab120 = {
@@ -40,11 +39,11 @@ public abstract class Piece {
         coordinate = _coordinate;
         type = _type;
         color = _color;
-        state = PieceState.WAITING;
     }
 
     public PieceType getType() { return type; }
     public PieceColor getColor() { return color; }
+    public Coordinate getCoordinate() { return coordinate; }
 
     public String toString() {
         return type + "/" + color + "(" + coordinate.x + ", " + coordinate.y + ")";
@@ -52,6 +51,7 @@ public abstract class Piece {
 
     public abstract int[][] getMove();
     public void moved(Coordinate _coordinate) {
-
+        coordinate = _coordinate;
+        ++nbMove;
     }
 }
