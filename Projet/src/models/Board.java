@@ -55,25 +55,23 @@ public class Board {
     }
 
     private boolean onBoard(Coordinate coordinate) {
-        if(coordinate.x >= 0 && coordinate.x < pieceBoard.length && coordinate.y >= 0 && coordinate.y < pieceBoard[coordinate.x].length)
-            return true;
-        return false;
+        return coordinate.x >= 0 && coordinate.x < pieceBoard.length && coordinate.y >= 0 && coordinate.y < pieceBoard[coordinate.x].length;
     }
 
     private Coordinate findKing(PieceColor player) {
-        for (int x = 0; x < pieceBoard.length; ++x)
-            for (int y = 0; y < pieceBoard[x].length; ++y)
-                if (pieceBoard[x][y].getType() == PieceType.KING && pieceBoard[x][y].getColor() == player)
-                    return pieceBoard[x][y].getCoordinate();
+        for (Piece[] pieces : pieceBoard)
+            for (Piece piece : pieces)
+                if (piece.getType() == PieceType.KING && piece.getColor() == player)
+                    return piece.getCoordinate();
         return null;
     }
 
     private int testCheck(PieceColor player) {
         Coordinate king = findKing(player);
-        for (int x = 0; x < pieceBoard.length; ++x)
-            for (int y = 0; y < pieceBoard[x].length; ++y)
-                if (pieceBoard[x][y].getColor() != player && pieceBoard[x][y].getType() != PieceType.VOID) {
-                    moveBoard = pieceBoard[x][y].getMove();
+        for (Piece[] pieces : pieceBoard)
+            for (Piece piece : pieces)
+                if (piece.getColor() != player && piece.getType() != PieceType.VOID) {
+                    moveBoard = piece.getMove();
                 }
         if (moveBoard(king) == 0)
             return 1;

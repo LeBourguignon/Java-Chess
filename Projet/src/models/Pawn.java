@@ -10,8 +10,8 @@ public class Pawn extends Piece {
 
         moveBoard[coordinate.x][coordinate.y] = 1;
 
-        Coordinate move = null;
-        int sign = 0;
+        Coordinate move;
+        int sign;
 
         if (color == PieceColor.WHITE)
             sign = -1;
