@@ -3,11 +3,11 @@ package models;
 public class Bishop extends Piece{
     private final int[] displacementVectors = {-11, -9, 9, 11};
 
-    public Bishop(Board _board, Coordinate _coordinate, PieceColor _color){
-        super(_board, _coordinate, PieceType.BISHOP, _color);
+    public Bishop(Coordinate _coordinate, PieceColor _color){
+        super(_coordinate, PieceType.BISHOP, _color);
     }
 
-    public int[][] getMove() {
+    public int[][] getMove(Board board) {
         int[][] moveBoard = board.getMoveBoard();
 
         moveBoard[coordinate.x][coordinate.y] = 1;
@@ -17,8 +17,8 @@ public class Bishop extends Piece{
                 int displacementVector = vector;
                 Coordinate move = null;
                 do {
-                    move = new Coordinate((Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) % 10,
-                            (Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) / 10);
+                    move = new Coordinate((Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) / 10,
+                            (Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) % 10);
                     if (color != board.pieceBoard(move).getColor()) {
                         moveBoard[move.x][move.y] = 2;
                         displacementVector += vector;

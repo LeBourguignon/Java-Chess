@@ -1,7 +1,6 @@
 package models;
 
-public abstract class Piece {
-    protected Board board;
+public abstract class Piece implements Cloneable {
     protected Coordinate coordinate;
     protected PieceType type;
     protected PieceColor color;
@@ -23,19 +22,18 @@ public abstract class Piece {
     };
 
     protected int[][] Tab64 = {
-        {21, 31, 41, 51, 61, 71, 81, 91},
-        {22, 32, 42, 52, 62, 72, 82, 92},
-        {23, 33, 43, 53, 63, 73, 83, 93},
-        {24, 34, 44, 54, 64, 74, 84, 94},
-        {25, 35, 45, 55, 65, 75, 85, 95},
-        {26, 36, 46, 56, 66, 76, 86, 96},
-        {27, 37, 47, 57, 67, 77, 87, 97},
-        {28, 38, 48, 58, 68, 78, 88, 98}
+        {21, 22, 23, 24, 25, 26, 27, 28},
+        {31, 32, 33, 34, 35, 36, 37, 38},
+        {41, 42, 43, 44, 45, 46, 47, 48},
+        {51, 52, 53, 54, 55, 56, 57, 58},
+        {61, 62, 63, 64, 65, 66, 67, 68},
+        {71, 72, 73, 74, 75, 76, 77, 78},
+        {81, 82, 83, 84, 85, 86, 87, 88},
+        {91, 92, 93, 94, 95, 96, 97, 98}
     };
 
-    public Piece(Board _board,Coordinate _coordinate, PieceType _type, PieceColor _color)
+    public Piece(Coordinate _coordinate, PieceType _type, PieceColor _color)
     {
-        board = _board;
         coordinate = _coordinate;
         type = _type;
         color = _color;
@@ -45,13 +43,20 @@ public abstract class Piece {
     public PieceColor getColor() { return color; }
     public Coordinate getCoordinate() { return coordinate; }
 
+    public int getNbMove() { return nbMove; }
+
     public String toString() {
-        return type + "/" + color + "(" + coordinate.x + ", " + coordinate.y + ")";
+        return type + "/" + color /* + "(" + coordinate.x + ", " + coordinate.y + ")"*/;
     }
 
-    public abstract int[][] getMove();
+    public abstract int[][] getMove(Board board);
+
     public void moved(Coordinate _coordinate) {
         coordinate = _coordinate;
         ++nbMove;
+    }
+
+    public Piece clone() throws CloneNotSupportedException {
+        return (Piece) super.clone();
     }
 }

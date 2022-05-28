@@ -8,4 +8,8 @@ public class Coordinate {
         x = _x;
         y = _y;
     }
+
+    public String toString() {
+        return "(" + x + ", " + y + ")";
+    }
 }

@@ -3,11 +3,11 @@ package models;
 public class Rook extends Piece{
     private final int[] displacementVectors = {-10, -1, 1, 10};
 
-    public Rook(Board _board, Coordinate _coordinate, PieceColor _color){
-        super(_board, _coordinate, PieceType.ROOK, _color);
+    public Rook(Coordinate _coordinate, PieceColor _color){
+        super(_coordinate, PieceType.ROOK, _color);
     }
 
-    public int[][] getMove() {
+    public int[][] getMove(Board board) {
         int[][] moveBoard = board.getMoveBoard();
 
         moveBoard[coordinate.x][coordinate.y] = 1;
@@ -17,8 +17,8 @@ public class Rook extends Piece{
                 int displacementVector = vector;
                 Coordinate move = null;
                 do {
-                    move = new Coordinate((Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) % 10,
-                            (Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) / 10);
+                    move = new Coordinate((Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) / 10,
+                            (Tab120[Tab64[coordinate.x][coordinate.y] + displacementVector]) % 10);
                     if (color != board.pieceBoard(move).getColor()) {
                         moveBoard[move.x][move.y] = 2;
                         displacementVector += vector;
