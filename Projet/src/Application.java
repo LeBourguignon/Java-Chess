@@ -6,9 +6,10 @@ public class Application {
         Coordinate c1 = new Coordinate(6, 1);
         Coordinate c2 = new Coordinate(4, 1);
 
+        System.out.println(board.toString());
         board.clicOnBoard(c1);
+        System.out.println(board.toString());
         board.clicOnBoard(c2);
         System.out.println(board.toString());
-        System.out.println(board.getPieceSelect());
     }
 }

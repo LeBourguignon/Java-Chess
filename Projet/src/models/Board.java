@@ -40,6 +40,7 @@ public class Board {
 
     public Piece getPieceSelect() { return pieceSelect; }
     public PieceColor getPlayer() { return player; }
+    public BoardState getState() { return state; }
 
     private void resetPieceBoard() {
         pieceBoard = new Piece[][] {
@@ -91,10 +92,49 @@ public class Board {
             return 0;
     }
 
-    //updateState() TODO
+    private void selectPiece(Coordinate coordinate) throws CloneNotSupportedException {
+        pieceSelect = pieceBoard(coordinate);
+        moveBoard = pieceSelect.getMove(this);
 
-    private void movePiece(Coordinate coordinate) {
-        //System.out.println("t");
+        for (int x = 0; x < moveBoard.length; ++x)
+            for (int y = 0; y < moveBoard[x].length; ++y)
+                if (moveBoard[x][y] == 2) {
+                    Board testBoard = new Board(this);
+                    testBoard.movePiece(pieceBoard[x][y].getCoordinate());
+                    moveBoard[x][y] *= testBoard.testCheck(pieceSelect.getColor());
+                }
+    }
+
+    private void updateState() throws CloneNotSupportedException {
+        //Promote TODO
+
+        int check = testCheck(player);
+        for (Piece[] pieces: pieceBoard)
+            for (Piece piece: pieces)
+                if (piece.getColor() == player) {
+                    selectPiece(piece.getCoordinate());
+                    for (int[] ints: moveBoard)
+                        for (int anInt: ints)
+                            if (anInt == 2) {
+                                if (check == 1)
+                                    state = BoardState.PLAYING;
+                                else
+                                    state = BoardState.CHECK;
+                                pieceSelect = null;
+                                resetMoveBoard();
+                                return;
+                            }
+                    pieceSelect = null;
+                    resetMoveBoard();
+                }
+        if (check == 1)
+            state = BoardState.STALEMATE;
+        else
+            state = BoardState.CHECKMATE;
+    }
+
+    private void movePiece(Coordinate coordinate) throws CloneNotSupportedException {
+        //Castling TODO
         pieceBoard[coordinate.x][coordinate.y] = pieceSelect;
         pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = new Void(pieceSelect.getCoordinate());
         pieceBoard[coordinate.x][coordinate.y].moved(coordinate);
@@ -105,31 +145,21 @@ public class Board {
             player = PieceColor.BLACK;
         else
             player = PieceColor.WHITE;
-
-        //Actualiser l'état de la partie TODO
     }
 
     public void clicOnBoard(Coordinate coordinate) throws CloneNotSupportedException {
-        if(!onBoard(coordinate));
+        if (state != BoardState.PLAYING);
+        else if(!onBoard(coordinate));
         else if(pieceBoard(coordinate) == pieceSelect) {
             pieceSelect = null;
             resetMoveBoard();
         }
         else if (pieceSelect == null && pieceBoard(coordinate).getColor() == player) {
-            pieceSelect = pieceBoard(coordinate);
-            moveBoard = pieceSelect.getMove(this);
-
-            for (int x = 0; x < moveBoard.length; ++x)
-                for (int y = 0; y < moveBoard[x].length; ++y)
-                    if (moveBoard[x][y] == 2) {
-                        Board testBoard = new Board(this);
-                        testBoard.movePiece(pieceBoard[x][y].getCoordinate());
-                        moveBoard[x][y] *= testBoard.testCheck(pieceSelect.getColor());
-                    }
-
+            selectPiece(coordinate);
         }
         else if (pieceSelect != null && moveBoard(coordinate) == 2) {
             movePiece(coordinate);
+            updateState();
         }
         //Promote TODO
     }
