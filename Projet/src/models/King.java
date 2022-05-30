@@ -21,7 +21,12 @@ public class King extends Piece{
                 }
             }
         }
-        //Castling TODO
+
+        if (nbMove != 0);
+        else if (board.getPieceBoard()[coordinate.x][coordinate.y + 1].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 2].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 3].getType() == PieceType.ROOK && board.getPieceBoard()[coordinate.x][coordinate.y + 3].getNbMove() == 0)
+            moveBoard[coordinate.x][coordinate.y + 2] = 3;
+        else if (board.getPieceBoard()[coordinate.x][coordinate.y - 1].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y - 2].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y - 3].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y - 4].getType() == PieceType.ROOK && board.getPieceBoard()[coordinate.x][coordinate.y - 4].getNbMove() == 0)
+            moveBoard[coordinate.x][coordinate.x - 2] = 4;
 
         return moveBoard;
     }

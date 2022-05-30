@@ -98,7 +98,7 @@ public class Board {
 
         for (int x = 0; x < moveBoard.length; ++x)
             for (int y = 0; y < moveBoard[x].length; ++y)
-                if (moveBoard[x][y] == 2) {
+                if (moveBoard[x][y] == 2 || moveBoard[x][y] == 3 || moveBoard[x][y] == 4) {
                     Board testBoard = new Board(this);
                     testBoard.movePiece(pieceBoard[x][y].getCoordinate());
                     moveBoard[x][y] *= testBoard.testCheck(pieceSelect.getColor());
@@ -133,11 +133,39 @@ public class Board {
             state = BoardState.CHECKMATE;
     }
 
-    private void movePiece(Coordinate coordinate) throws CloneNotSupportedException {
-        //Castling TODO
-        pieceBoard[coordinate.x][coordinate.y] = pieceSelect;
-        pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = new Void(pieceSelect.getCoordinate());
-        pieceBoard[coordinate.x][coordinate.y].moved(coordinate);
+    private boolean movePiece(Coordinate coordinate) {
+        if (moveBoard(coordinate) == 2 || moveBoard(coordinate) == 3 || moveBoard(coordinate) == 4) {
+            pieceBoard[coordinate.x][coordinate.y] = pieceSelect;
+            pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = new Void(pieceSelect.getCoordinate());
+            pieceBoard[coordinate.x][coordinate.y].moved(coordinate);
+        }
+        else
+            return false;
+
+        if (moveBoard(coordinate) == 3) {
+            if (pieceSelect.getType() == PieceType.KING) {
+                pieceBoard[coordinate.x][coordinate.y - 1] = pieceBoard[coordinate.x][coordinate.y + 3];
+                pieceBoard[coordinate.x][coordinate.y + 3] = new Void(new Coordinate(coordinate.x, coordinate.y + 3));
+                pieceBoard[coordinate.x][coordinate.y - 1].moved(new Coordinate(coordinate.x, coordinate.y - 1));
+            }
+            else if (pieceSelect.getType() == PieceType.ROOK) {
+                pieceBoard[coordinate.x][coordinate.y + 1] = pieceBoard[coordinate.x][coordinate.y - 3];
+                pieceBoard[coordinate.x][coordinate.y - 3] = new Void(new Coordinate(coordinate.x, coordinate.y - 3));
+                pieceBoard[coordinate.x][coordinate.y + 1].moved(new Coordinate(coordinate.x, coordinate.y + 1));
+            }
+        }
+        else if (moveBoard(coordinate) == 4) {
+            if (pieceSelect.getType() == PieceType.KING) {
+                pieceBoard[coordinate.x][coordinate.y + 1] = pieceBoard[coordinate.x][coordinate.y - 4];
+                pieceBoard[coordinate.x][coordinate.y - 4] = new Void(new Coordinate(coordinate.x, coordinate.y - 4));
+                pieceBoard[coordinate.x][coordinate.y + 1].moved(new Coordinate(coordinate.x, coordinate.y + 1));
+            }
+            else if (pieceSelect.getType() == PieceType.ROOK) {
+                pieceBoard[coordinate.x][coordinate.y - 1] = pieceBoard[coordinate.x][coordinate.y + 4];
+                pieceBoard[coordinate.x][coordinate.y + 4] = new Void(new Coordinate(coordinate.x, coordinate.y + 4));
+                pieceBoard[coordinate.x][coordinate.y - 1].moved(new Coordinate(coordinate.x, coordinate.y - 1));
+            }
+        }
 
         resetMoveBoard();
         pieceSelect = null;
@@ -145,6 +173,7 @@ public class Board {
             player = PieceColor.BLACK;
         else
             player = PieceColor.WHITE;
+        return true;
     }
 
     public void clicOnBoard(Coordinate coordinate) throws CloneNotSupportedException {
@@ -157,10 +186,9 @@ public class Board {
         else if (pieceSelect == null && pieceBoard(coordinate).getColor() == player) {
             selectPiece(coordinate);
         }
-        else if (pieceSelect != null && moveBoard(coordinate) == 2) {
-            movePiece(coordinate);
+        else if (pieceSelect != null && movePiece(coordinate))
             updateState();
-        }
+
         //Promote TODO
     }
 
