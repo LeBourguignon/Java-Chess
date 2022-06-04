@@ -177,7 +177,7 @@ public class Board {
     }
 
     public void clicOnBoard(Coordinate coordinate) throws CloneNotSupportedException {
-        if (state != BoardState.PLAYING);
+        if (state != BoardState.PLAYING && state != BoardState.CHECK);
         else if(!onBoard(coordinate));
         else if(pieceBoard(coordinate) == pieceSelect) {
             pieceSelect = null;
