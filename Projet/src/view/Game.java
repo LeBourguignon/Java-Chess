@@ -1,11 +1,18 @@
 package view;
 
 import models.Board;
+import models.Coordinate;
 import models.PieceColor;
 
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
+import java.awt.image.BufferedImage;
+import java.io.File;
+import java.io.IOException;
 
 public class Game {
     private JPanel main;
@@ -13,35 +20,32 @@ public class Game {
 
     private Board board;
 
-    private ImageIcon kingWhite = new ImageIcon("src\\resource\\King_White.png");
-    private ImageIcon pawnWhite = new ImageIcon("src\\resource\\Pawn_White.png");
-    private ImageIcon knightWhite = new ImageIcon("src\\resource\\Knight_White.png");
-    private ImageIcon bishopWhite = new ImageIcon("src\\resource\\Bishop_White.png");
-    private ImageIcon rookWhite = new ImageIcon("src\\resource\\Rook_White.png");
-    private ImageIcon queenWhite = new ImageIcon("src\\resource\\Queen_White.png");
+    private BufferedImage kingWhite = ImageIO.read(new File("src\\resource\\King_White.png"));
+    private BufferedImage pawnWhite = ImageIO.read(new File("src\\resource\\Pawn_White.png"));
+    private BufferedImage knightWhite = ImageIO.read(new File("src\\resource\\Knight_White.png"));
+    private BufferedImage bishopWhite = ImageIO.read(new File("src\\resource\\Bishop_White.png"));
+    private BufferedImage rookWhite = ImageIO.read(new File("src\\resource\\Rook_White.png"));
+    private BufferedImage queenWhite = ImageIO.read(new File("src\\resource\\Queen_White.png"));
 
-    private ImageIcon kingBlack = new ImageIcon("src\\resource\\King_Black.png");
-    private ImageIcon pawnBlack = new ImageIcon("src\\resource\\Pawn_Black.png");
-    private ImageIcon knightBlack = new ImageIcon("src\\resource\\Knight_Black.png");
-    private ImageIcon bishopBlack = new ImageIcon("src\\resource\\Bishop_Black.png");
-    private ImageIcon rookBlack = new ImageIcon("src\\resource\\Rook_Black.png");
-    private ImageIcon queenBlack = new ImageIcon("src\\resource\\Queen_Black.png");
+    private BufferedImage kingBlack = ImageIO.read(new File("src\\resource\\King_Black.png"));
+    private BufferedImage pawnBlack = ImageIO.read(new File("src\\resource\\Pawn_Black.png"));
+    private BufferedImage knightBlack = ImageIO.read(new File("src\\resource\\Knight_Black.png"));
+    private BufferedImage bishopBlack = ImageIO.read(new File("src\\resource\\Bishop_Black.png"));
+    private BufferedImage rookBlack = ImageIO.read(new File("src\\resource\\Rook_Black.png"));
+    private BufferedImage queenBlack = ImageIO.read(new File("src\\resource\\Queen_Black.png"));
 
-    public Game(Board _board) {
+    public Game(Board _board) throws IOException {
         board = _board;
         chess.setLayout(new GridLayout(board.getPieceBoard().length, board.getPieceBoard()[0].length, 0, 0));
-
-
-
         updateChess();
     }
 
-    private void updateChess() {
+    private void updateChess() throws IOException {
         boolean state = false;
         chess.removeAll();
         for (int x = 0; x < board.getPieceBoard().length; ++x) {
             for (int y = 0; y < board.getPieceBoard()[x].length; ++y) {
-                JPanel box = new JPanel(new VerticalLayout(0, VerticalLayout.CENTER, VerticalLayout.BOTTOM));
+                ImagePanel box = new ImagePanel();
                 box.setMinimumSize(new Dimension(70, 70));
                 box.setMaximumSize(new Dimension(420, 420));
 
@@ -80,51 +84,46 @@ public class Game {
 
                     case KING:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.add(new JLabel(kingWhite));
+                            box.setImage(kingWhite);
                         else
-                            box.add(new JLabel(kingBlack));
+                            box.setImage(kingBlack);
                         break;
 
                     case PAWN:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.add(new JLabel(pawnWhite));
+                            box.setImage(pawnWhite);
                         else
-                            box.add(new JLabel(pawnBlack));
+                            box.setImage(pawnBlack);
                         break;
 
                     case KNIGHT:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.add(new JLabel(knightWhite));
+                            box.setImage(knightWhite);
                         else
-                            box.add(new JLabel(knightBlack));
+                            box.setImage(knightBlack);
                         break;
 
                     case BISHOP:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.add(new JLabel(bishopWhite));
+                            box.setImage(bishopWhite);
                         else
-                            box.add(new JLabel(bishopBlack));
+                            box.setImage(bishopBlack);
                         break;
 
                     case ROOK:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.add(new JLabel(rookWhite));
+                            box.setImage(rookWhite);
                         else
-                            box.add(new JLabel(rookBlack));
+                            box.setImage(rookBlack);
                         break;
 
                     case QUEEN:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.add(new JLabel(queenWhite));
+                            box.setImage(queenWhite);
                         else
-                            box.add(new JLabel(queenBlack));
+                            box.setImage(queenBlack);
                         break;
                 }
-
-                JPanel vSpace = new JPanel();
-                vSpace.setPreferredSize(new Dimension(-1, 10));
-                vSpace.setOpaque(false);
-                box.add(vSpace); //TODO C'EST DEGUEU!!!
 
                 chess.add(box);
                 state = !state;
@@ -133,11 +132,8 @@ public class Game {
         }
     }
 
-    public void start() {
+    public void start() throws IOException {
         JFrame frame = new JFrame("Java Chess by ADS");
-
-
-
         frame.setContentPane(main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();
