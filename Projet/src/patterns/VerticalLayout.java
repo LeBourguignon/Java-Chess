@@ -1,4 +1,4 @@
-package view;
+package patterns;
 
 /**
  THIS PROGRAM IS PROVIDED "AS IS" WITHOUT ANY WARRANTIES (OR CONDITIONS),

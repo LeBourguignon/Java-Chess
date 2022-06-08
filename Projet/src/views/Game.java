@@ -1,12 +1,12 @@
-package view;
+package views;
 
 import models.Board;
 import models.Coordinate;
 import models.PieceColor;
+import patterns.BoxPanel;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
-import javax.swing.plaf.basic.BasicSplitPaneUI;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
@@ -20,23 +20,27 @@ public class Game {
 
     private Board board;
 
-    private BufferedImage kingWhite = ImageIO.read(new File("src\\resource\\King_White.png"));
-    private BufferedImage pawnWhite = ImageIO.read(new File("src\\resource\\Pawn_White.png"));
-    private BufferedImage knightWhite = ImageIO.read(new File("src\\resource\\Knight_White.png"));
-    private BufferedImage bishopWhite = ImageIO.read(new File("src\\resource\\Bishop_White.png"));
-    private BufferedImage rookWhite = ImageIO.read(new File("src\\resource\\Rook_White.png"));
-    private BufferedImage queenWhite = ImageIO.read(new File("src\\resource\\Queen_White.png"));
+    private final BufferedImage kingWhite = ImageIO.read(new File("src\\resource\\King_White.png"));
+    private final BufferedImage pawnWhite = ImageIO.read(new File("src\\resource\\Pawn_White.png"));
+    private final BufferedImage knightWhite = ImageIO.read(new File("src\\resource\\Knight_White.png"));
+    private final BufferedImage bishopWhite = ImageIO.read(new File("src\\resource\\Bishop_White.png"));
+    private final BufferedImage rookWhite = ImageIO.read(new File("src\\resource\\Rook_White.png"));
+    private final BufferedImage queenWhite = ImageIO.read(new File("src\\resource\\Queen_White.png"));
 
-    private BufferedImage kingBlack = ImageIO.read(new File("src\\resource\\King_Black.png"));
-    private BufferedImage pawnBlack = ImageIO.read(new File("src\\resource\\Pawn_Black.png"));
-    private BufferedImage knightBlack = ImageIO.read(new File("src\\resource\\Knight_Black.png"));
-    private BufferedImage bishopBlack = ImageIO.read(new File("src\\resource\\Bishop_Black.png"));
-    private BufferedImage rookBlack = ImageIO.read(new File("src\\resource\\Rook_Black.png"));
-    private BufferedImage queenBlack = ImageIO.read(new File("src\\resource\\Queen_Black.png"));
+    private final BufferedImage kingBlack = ImageIO.read(new File("src\\resource\\King_Black.png"));
+    private final BufferedImage pawnBlack = ImageIO.read(new File("src\\resource\\Pawn_Black.png"));
+    private final BufferedImage knightBlack = ImageIO.read(new File("src\\resource\\Knight_Black.png"));
+    private final BufferedImage bishopBlack = ImageIO.read(new File("src\\resource\\Bishop_Black.png"));
+    private final BufferedImage rookBlack = ImageIO.read(new File("src\\resource\\Rook_Black.png"));
+    private final BufferedImage queenBlack = ImageIO.read(new File("src\\resource\\Queen_Black.png"));
 
     public Game(Board _board) throws IOException {
         board = _board;
         chess.setLayout(new GridLayout(board.getPieceBoard().length, board.getPieceBoard()[0].length, 0, 0));
+        update();
+    }
+
+    private void update() throws IOException {
         updateChess();
     }
 
@@ -45,9 +49,11 @@ public class Game {
         chess.removeAll();
         for (int x = 0; x < board.getPieceBoard().length; ++x) {
             for (int y = 0; y < board.getPieceBoard()[x].length; ++y) {
-                ImagePanel box = new ImagePanel();
+                BoxPanel box = new BoxPanel();
                 box.setMinimumSize(new Dimension(70, 70));
                 box.setMaximumSize(new Dimension(420, 420));
+                box.setFocusPainted(false);
+                box.setBorderPainted(false);
 
                 switch (board.getMoveBoard()[x][y]) {
                     default:
@@ -125,6 +131,23 @@ public class Game {
                         break;
                 }
 
+                Coordinate coordinate = new Coordinate(x, y);
+                box.addActionListener(new ActionListener() {
+                    @Override
+                    public void actionPerformed(ActionEvent e) {
+                        try {
+                            board.clicOnBoard(coordinate);
+                        } catch (CloneNotSupportedException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                        try {
+                            update();
+                        } catch (IOException ex) {
+                            throw new RuntimeException(ex);
+                        }
+                    }
+                });
+
                 chess.add(box);
                 state = !state;
             }
@@ -133,7 +156,7 @@ public class Game {
     }
 
     public void start() throws IOException {
-        JFrame frame = new JFrame("Java Chess by ADS");
+        JFrame frame = new JFrame("Java Chess");
         frame.setContentPane(main);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         frame.pack();

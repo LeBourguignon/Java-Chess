@@ -28,10 +28,12 @@ public class Rook extends Piece{
         }
 
         if (nbMove != 0);
-        else if (board.getPieceBoard()[coordinate.x][coordinate.y - 1].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y - 2].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y - 3].getType() == PieceType.KING && board.getPieceBoard()[coordinate.x][coordinate.y - 3].getNbMove() == 0)
-            moveBoard[coordinate.x][coordinate.y - 2] = 3;
-        else if (board.getPieceBoard()[coordinate.x][coordinate.y + 1].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 2].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 3].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 4].getType() == PieceType.KING && board.getPieceBoard()[coordinate.x][coordinate.y + 4].getNbMove() == 0)
-            moveBoard[coordinate.x][coordinate.y + 3] = 4;
+        else if (coordinate.y == 7)
+            if (board.getPieceBoard()[coordinate.x][coordinate.y - 1].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y - 2].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y - 3].getType() == PieceType.KING && board.getPieceBoard()[coordinate.x][coordinate.y - 3].getNbMove() == 0)
+                moveBoard[coordinate.x][coordinate.y - 2] = 3;
+        else if (coordinate.y == 0)
+            if (board.getPieceBoard()[coordinate.x][coordinate.y + 1].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 2].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 3].getType() == PieceType.VOID && board.getPieceBoard()[coordinate.x][coordinate.y + 4].getType() == PieceType.KING && board.getPieceBoard()[coordinate.x][coordinate.y + 4].getNbMove() == 0)
+                moveBoard[coordinate.x][coordinate.y + 3] = 4;
 
         return moveBoard;
     }

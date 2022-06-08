@@ -1,5 +1,5 @@
 import models.Board;
-import view.Game;
+import views.Game;
 
 import java.io.IOException;
 
