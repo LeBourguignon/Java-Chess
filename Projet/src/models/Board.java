@@ -98,7 +98,7 @@ public class Board {
 
         for (int x = 0; x < moveBoard.length; ++x)
             for (int y = 0; y < moveBoard[x].length; ++y)
-                if (moveBoard[x][y] == 2 || moveBoard[x][y] == 3 || moveBoard[x][y] == 4) {
+                if (moveBoard[x][y] == 2) { //TODO: (moveBoard[x][y] == 2 || moveBoard[x][y] == 3 || moveBoard[x][y] == 4)
                     Board testBoard = new Board(this);
                     testBoard.movePiece(pieceBoard[x][y].getCoordinate());
                     moveBoard[x][y] *= testBoard.testCheck(pieceSelect.getColor());
@@ -106,7 +106,7 @@ public class Board {
     }
 
     private void updateState() throws CloneNotSupportedException {
-        //Promote TODO
+        //TODO Promote
 
         int check = testCheck(player);
         for (Piece[] pieces: pieceBoard)
@@ -189,7 +189,7 @@ public class Board {
         else if (pieceSelect != null && movePiece(coordinate))
             updateState();
 
-        //Promote TODO
+        //TODO Promote
     }
 
     public String toString() {

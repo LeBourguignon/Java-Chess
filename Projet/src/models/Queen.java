@@ -1,5 +1,7 @@
 package models;
 
+import java.util.Arrays;
+
 public class Queen extends Piece{
     private final int[] displacementVectors = {-11, -10, -9, -1, 1, 9, 10, 11};
 
@@ -23,7 +25,7 @@ public class Queen extends Piece{
                         moveBoard[move.x][move.y] = 2;
                         displacementVector += vector;
                     }
-                } while (board.pieceBoard(move).getType() == PieceType.VOID && Tab120[Tab64[move.x][move.y] + displacementVector] != -1);
+                } while (board.pieceBoard(move).getType() == PieceType.VOID && Tab120[Tab64[move.x][move.y] + vector] != -1);
             }
         }
 
