@@ -1,9 +1,11 @@
 package views;
 
+import controllers.Controller;
 import models.Board;
 import models.Coordinate;
 import models.PieceColor;
 import patterns.BoxPanel;
+import patterns.View;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -14,34 +16,28 @@ import java.awt.image.BufferedImage;
 import java.io.File;
 import java.io.IOException;
 
-public class Game {
-    private JPanel main;
+public class Game extends View {
+    public JPanel main;
     private JPanel chess;
 
     private Board board;
 
-    private final BufferedImage kingWhite = ImageIO.read(new File("src\\resource\\King_White.png"));
-    private final BufferedImage pawnWhite = ImageIO.read(new File("src\\resource\\Pawn_White.png"));
-    private final BufferedImage knightWhite = ImageIO.read(new File("src\\resource\\Knight_White.png"));
-    private final BufferedImage bishopWhite = ImageIO.read(new File("src\\resource\\Bishop_White.png"));
-    private final BufferedImage rookWhite = ImageIO.read(new File("src\\resource\\Rook_White.png"));
-    private final BufferedImage queenWhite = ImageIO.read(new File("src\\resource\\Queen_White.png"));
-
-    private final BufferedImage kingBlack = ImageIO.read(new File("src\\resource\\King_Black.png"));
-    private final BufferedImage pawnBlack = ImageIO.read(new File("src\\resource\\Pawn_Black.png"));
-    private final BufferedImage knightBlack = ImageIO.read(new File("src\\resource\\Knight_Black.png"));
-    private final BufferedImage bishopBlack = ImageIO.read(new File("src\\resource\\Bishop_Black.png"));
-    private final BufferedImage rookBlack = ImageIO.read(new File("src\\resource\\Rook_Black.png"));
-    private final BufferedImage queenBlack = ImageIO.read(new File("src\\resource\\Queen_Black.png"));
-
-    public Game(Board _board) throws IOException {
-        board = _board;
+    public Game(Controller controller) throws IOException {
+        super(controller);
+        board = new Board();
         chess.setLayout(new GridLayout(board.getPieceBoard().length, board.getPieceBoard()[0].length, 0, 0));
         update();
     }
 
-    private void update() throws IOException {
+    protected void update() throws IOException {
         updateChess();
+
+        controller.frame.setContentPane(main);
+        controller.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        controller.frame.pack();
+        controller.frame.setVisible(true);
+
+        //controller.frame.update(main.getGraphics());
     }
 
     private void updateChess() throws IOException {
@@ -90,44 +86,44 @@ public class Game {
 
                     case KING:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(kingWhite);
+                            box.setImage(ImageIO.read(new File("src\\resource\\King_White.png")));
                         else
-                            box.setImage(kingBlack);
+                            box.setImage(ImageIO.read(new File("src\\resource\\King_Black.png")));
                         break;
 
                     case PAWN:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(pawnWhite);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Pawn_White.png")));
                         else
-                            box.setImage(pawnBlack);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Pawn_Black.png")));
                         break;
 
                     case KNIGHT:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(knightWhite);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Knight_White.png")));
                         else
-                            box.setImage(knightBlack);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Knight_Black.png")));
                         break;
 
                     case BISHOP:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(bishopWhite);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Bishop_White.png")));
                         else
-                            box.setImage(bishopBlack);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Bishop_Black.png")));
                         break;
 
                     case ROOK:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(rookWhite);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Rook_White.png")));
                         else
-                            box.setImage(rookBlack);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Rook_Black.png")));
                         break;
 
                     case QUEEN:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(queenWhite);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Queen_White.png")));
                         else
-                            box.setImage(queenBlack);
+                            box.setImage(ImageIO.read(new File("src\\resource\\Queen_Black.png")));
                         break;
                 }
 
@@ -141,7 +137,7 @@ public class Game {
                             throw new RuntimeException(ex);
                         }
                         try {
-                            update();
+                            controller.toNotify();
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }
@@ -153,13 +149,5 @@ public class Game {
             }
             state = !state;
         }
-    }
-
-    public void start() throws IOException {
-        JFrame frame = new JFrame("Java Chess");
-        frame.setContentPane(main);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.pack();
-        frame.setVisible(true);
     }
 }

@@ -2,22 +2,25 @@ package patterns;
 
 import controllers.Controller;
 
+import java.io.IOException;
+
 public abstract class View extends Observer{
-    private Controller controller;
-    private ViewType viewType;
+    protected Controller controller;
+    protected ViewType viewType;
 
     public View(Controller _controller) {
         controller = _controller;
+        controller.addObserver(this);
     }
 
-    private boolean checkView() {
+    protected boolean checkView() {
         return viewType == controller.getCurrentScreen();
     }
 
-    public void toNotify() {
+    public void toNotify() throws IOException {
         if (checkView())
             update();
     }
 
-    public abstract void update();
+    protected abstract void update() throws IOException;
 }
