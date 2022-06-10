@@ -144,25 +144,25 @@ public class Board {
 
         if (moveBoard(coordinate) == 3) {
             if (pieceSelect.getType() == PieceType.KING) {
-                pieceBoard[coordinate.x][coordinate.y - 1] = pieceBoard[coordinate.x][coordinate.y + 3];
-                pieceBoard[coordinate.x][coordinate.y + 3] = new Void(new Coordinate(coordinate.x, coordinate.y + 3));
+                pieceBoard[coordinate.x][coordinate.y - 1] = pieceBoard[coordinate.x][coordinate.y + 1];
+                pieceBoard[coordinate.x][coordinate.y + 1] = new Void(new Coordinate(coordinate.x, coordinate.y + 1));
                 pieceBoard[coordinate.x][coordinate.y - 1].moved(new Coordinate(coordinate.x, coordinate.y - 1));
             }
             else if (pieceSelect.getType() == PieceType.ROOK) {
-                pieceBoard[coordinate.x][coordinate.y + 1] = pieceBoard[coordinate.x][coordinate.y - 3];
-                pieceBoard[coordinate.x][coordinate.y - 3] = new Void(new Coordinate(coordinate.x, coordinate.y - 3));
+                pieceBoard[coordinate.x][coordinate.y + 1] = pieceBoard[coordinate.x][coordinate.y - 1];
+                pieceBoard[coordinate.x][coordinate.y - 1] = new Void(new Coordinate(coordinate.x, coordinate.y - 1));
                 pieceBoard[coordinate.x][coordinate.y + 1].moved(new Coordinate(coordinate.x, coordinate.y + 1));
             }
         }
         else if (moveBoard(coordinate) == 4) {
             if (pieceSelect.getType() == PieceType.KING) {
-                pieceBoard[coordinate.x][coordinate.y + 1] = pieceBoard[coordinate.x][coordinate.y - 4];
-                pieceBoard[coordinate.x][coordinate.y - 4] = new Void(new Coordinate(coordinate.x, coordinate.y - 4));
+                pieceBoard[coordinate.x][coordinate.y + 1] = pieceBoard[coordinate.x][coordinate.y - 2];
+                pieceBoard[coordinate.x][coordinate.y - 2] = new Void(new Coordinate(coordinate.x, coordinate.y - 2));
                 pieceBoard[coordinate.x][coordinate.y + 1].moved(new Coordinate(coordinate.x, coordinate.y + 1));
             }
             else if (pieceSelect.getType() == PieceType.ROOK) {
-                pieceBoard[coordinate.x][coordinate.y - 1] = pieceBoard[coordinate.x][coordinate.y + 4];
-                pieceBoard[coordinate.x][coordinate.y + 4] = new Void(new Coordinate(coordinate.x, coordinate.y + 4));
+                pieceBoard[coordinate.x][coordinate.y - 1] = pieceBoard[coordinate.x][coordinate.y + 1];
+                pieceBoard[coordinate.x][coordinate.y + 1] = new Void(new Coordinate(coordinate.x, coordinate.y + 1));
                 pieceBoard[coordinate.x][coordinate.y - 1].moved(new Coordinate(coordinate.x, coordinate.y - 1));
             }
         }

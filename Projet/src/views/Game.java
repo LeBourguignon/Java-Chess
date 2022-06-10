@@ -22,6 +22,20 @@ public class Game extends View {
 
     private Board board;
 
+    private final BufferedImage kingWhite = ImageIO.read(new File("src\\resources\\King_White.png"));
+    private final BufferedImage pawnWhite = ImageIO.read(new File("src\\resources\\Pawn_White.png"));
+    private final BufferedImage knightWhite = ImageIO.read(new File("src\\resources\\Knight_White.png"));
+    private final BufferedImage bishopWhite = ImageIO.read(new File("src\\resources\\Bishop_White.png"));
+    private final BufferedImage rookWhite = ImageIO.read(new File("src\\resources\\Rook_White.png"));
+    private final BufferedImage queenWhite = ImageIO.read(new File("src\\resources\\Queen_White.png"));
+
+    private final BufferedImage kingBlack = ImageIO.read(new File("src\\resources\\King_Black.png"));
+    private final BufferedImage pawnBlack = ImageIO.read(new File("src\\resources\\Pawn_Black.png"));
+    private final BufferedImage knightBlack = ImageIO.read(new File("src\\resources\\Knight_Black.png"));
+    private final BufferedImage bishopBlack = ImageIO.read(new File("src\\resources\\Bishop_Black.png"));
+    private final BufferedImage rookBlack = ImageIO.read(new File("src\\resources\\Rook_Black.png"));
+    private final BufferedImage queenBlack = ImageIO.read(new File("src\\resources\\Queen_Black.png"));
+
     public Game(Controller controller) throws IOException {
         super(controller);
         board = new Board();
@@ -33,11 +47,8 @@ public class Game extends View {
         updateChess();
 
         controller.frame.setContentPane(main);
-        controller.frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         controller.frame.pack();
         controller.frame.setVisible(true);
-
-        //controller.frame.update(main.getGraphics());
     }
 
     private void updateChess() throws IOException {
@@ -86,44 +97,44 @@ public class Game extends View {
 
                     case KING:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(ImageIO.read(new File("src\\resource\\King_White.png")));
+                            box.setImage(kingWhite);
                         else
-                            box.setImage(ImageIO.read(new File("src\\resource\\King_Black.png")));
+                            box.setImage(kingBlack);
                         break;
 
                     case PAWN:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(ImageIO.read(new File("src\\resource\\Pawn_White.png")));
+                            box.setImage(pawnWhite);
                         else
-                            box.setImage(ImageIO.read(new File("src\\resource\\Pawn_Black.png")));
+                            box.setImage(pawnBlack);
                         break;
 
                     case KNIGHT:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(ImageIO.read(new File("src\\resource\\Knight_White.png")));
+                            box.setImage(knightWhite);
                         else
-                            box.setImage(ImageIO.read(new File("src\\resource\\Knight_Black.png")));
+                            box.setImage(knightBlack);
                         break;
 
                     case BISHOP:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(ImageIO.read(new File("src\\resource\\Bishop_White.png")));
+                            box.setImage(bishopWhite);
                         else
-                            box.setImage(ImageIO.read(new File("src\\resource\\Bishop_Black.png")));
+                            box.setImage(bishopBlack);
                         break;
 
                     case ROOK:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(ImageIO.read(new File("src\\resource\\Rook_White.png")));
+                            box.setImage(rookWhite);
                         else
-                            box.setImage(ImageIO.read(new File("src\\resource\\Rook_Black.png")));
+                            box.setImage(rookBlack);
                         break;
 
                     case QUEEN:
                         if (board.getPieceBoard()[x][y].getColor() == PieceColor.WHITE)
-                            box.setImage(ImageIO.read(new File("src\\resource\\Queen_White.png")));
+                            box.setImage(queenWhite);
                         else
-                            box.setImage(ImageIO.read(new File("src\\resource\\Queen_Black.png")));
+                            box.setImage(queenBlack);
                         break;
                 }
 
@@ -137,7 +148,7 @@ public class Game extends View {
                             throw new RuntimeException(ex);
                         }
                         try {
-                            controller.toNotify();
+                            update();
                         } catch (IOException ex) {
                             throw new RuntimeException(ex);
                         }

@@ -4,6 +4,7 @@ import patterns.Subject;
 import patterns.ViewType;
 
 import javax.swing.*;
+import java.awt.*;
 
 public class Controller extends Subject {
     private ViewType currentScreen = ViewType.GAME;
@@ -12,6 +13,8 @@ public class Controller extends Subject {
 
     public Controller() {
         frame = new JFrame("Java Chess");
+
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
     }
 
     public ViewType getCurrentScreen() { return currentScreen; }
