@@ -11,6 +11,7 @@ public abstract class View extends Observer{
     public View(Controller _controller) {
         controller = _controller;
         controller.addObserver(this);
+        viewType = ViewType.NONE;
     }
 
     protected boolean checkView() {

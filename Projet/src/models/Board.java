@@ -10,6 +10,8 @@ public class Board {
     private PieceColor player = PieceColor.WHITE;
     private BoardState state = BoardState.PLAYING;
 
+    private int nbMove = 0;
+
     public Board() {
         resetPieceBoard();
         resetMoveBoard();
@@ -41,6 +43,8 @@ public class Board {
     public Piece getPieceSelect() { return pieceSelect; }
     public PieceColor getPlayer() { return player; }
     public BoardState getState() { return state; }
+
+    public int getNbMove() { return nbMove; }
 
     private void resetPieceBoard() {
         pieceBoard = new Piece[][] {
@@ -108,6 +112,7 @@ public class Board {
     private void updateState() throws CloneNotSupportedException {
         //TODO Promote
 
+        //TODO Update state ne marche pas quand il y a echec...
         int check = testCheck(player);
         for (Piece[] pieces: pieceBoard)
             for (Piece piece: pieces)
@@ -173,6 +178,7 @@ public class Board {
             player = PieceColor.BLACK;
         else
             player = PieceColor.WHITE;
+        ++nbMove;
         return true;
     }
 

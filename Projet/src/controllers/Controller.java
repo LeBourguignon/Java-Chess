@@ -15,6 +15,7 @@ public class Controller extends Subject {
         frame = new JFrame("Java Chess");
 
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
     }
 
     public ViewType getCurrentScreen() { return currentScreen; }

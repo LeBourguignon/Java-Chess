@@ -5,7 +5,9 @@ import models.Board;
 import models.Coordinate;
 import models.PieceColor;
 import patterns.BoxPanel;
+import patterns.ImagePanel;
 import patterns.View;
+import patterns.ViewType;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,8 +21,15 @@ import java.io.IOException;
 public class Game extends View {
     public JPanel main;
     private JPanel chess;
+    private JButton recommencerButton; //TODO
+    private JButton quitterButton; //TODO
+    private JPanel lineColor;
+    private JPanel lineState;
+    private JLabel color;
+    private JLabel state;
+    private JLabel nbMove;
 
-    private Board board;
+    private final Board board;
 
     private final BufferedImage kingWhite = ImageIO.read(new File("src\\resources\\King_White.png"));
     private final BufferedImage pawnWhite = ImageIO.read(new File("src\\resources\\Pawn_White.png"));
@@ -38,17 +47,62 @@ public class Game extends View {
 
     public Game(Controller controller) throws IOException {
         super(controller);
+        viewType = ViewType.GAME;
+
         board = new Board();
+
+        ImagePanel lineMenuAfterColor = new ImagePanel(ImageIO.read(new File("src\\resources\\Line_Menu.png")));
+        lineMenuAfterColor.setBackground(new Color(0x404040));
+        lineColor.add(lineMenuAfterColor);
+
+        ImagePanel lineMenuAfterState = new ImagePanel(ImageIO.read(new File("src\\resources\\Line_Menu.png")));
+        lineMenuAfterState.setBackground(new Color(0x404040));
+        lineState.add(lineMenuAfterState);
+
         chess.setLayout(new GridLayout(board.getPieceBoard().length, board.getPieceBoard()[0].length, 0, 0));
-        update();
+
+        toNotify();
     }
 
     protected void update() throws IOException {
+        updateWindow();
         updateChess();
 
         controller.frame.setContentPane(main);
         controller.frame.pack();
         controller.frame.setVisible(true);
+    }
+
+    private void updateWindow() {
+        if (board.getPlayer() == PieceColor.WHITE)
+            color.setText("Blanc");
+        else
+            color.setText("Noir");
+
+        switch (board.getState()) {
+            default:
+            case PLAYING:
+                state.setText("Jouer");
+                break;
+
+            case CHECK:
+                state.setText("Echec");
+                break;
+
+            case CHECKMATE:
+                state.setText("Echec et mate");
+                break;
+
+            case STALEMATE:
+                state.setText("Pat");
+                break;
+
+            case PROMOTE:
+                state.setText("Promotion");
+                break;
+        }
+
+        nbMove.setText("" + board.getNbMove());
     }
 
     private void updateChess() throws IOException {
