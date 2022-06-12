@@ -32,19 +32,19 @@ public class Game extends View {
 
     private Board board;
 
-    private final BufferedImage kingWhite = ImageIO.read(new File("src\\resources\\King_White.png"));
-    private final BufferedImage pawnWhite = ImageIO.read(new File("src\\resources\\Pawn_White.png"));
-    private final BufferedImage knightWhite = ImageIO.read(new File("src\\resources\\Knight_White.png"));
-    private final BufferedImage bishopWhite = ImageIO.read(new File("src\\resources\\Bishop_White.png"));
-    private final BufferedImage rookWhite = ImageIO.read(new File("src\\resources\\Rook_White.png"));
-    private final BufferedImage queenWhite = ImageIO.read(new File("src\\resources\\Queen_White.png"));
+    private final BufferedImage kingWhite = ImageIO.read(new File("resources\\King_White.png"));
+    private final BufferedImage pawnWhite = ImageIO.read(new File("resources\\Pawn_White.png"));
+    private final BufferedImage knightWhite = ImageIO.read(new File("resources\\Knight_White.png"));
+    private final BufferedImage bishopWhite = ImageIO.read(new File("resources\\Bishop_White.png"));
+    private final BufferedImage rookWhite = ImageIO.read(new File("resources\\Rook_White.png"));
+    private final BufferedImage queenWhite = ImageIO.read(new File("resources\\Queen_White.png"));
 
-    private final BufferedImage kingBlack = ImageIO.read(new File("src\\resources\\King_Black.png"));
-    private final BufferedImage pawnBlack = ImageIO.read(new File("src\\resources\\Pawn_Black.png"));
-    private final BufferedImage knightBlack = ImageIO.read(new File("src\\resources\\Knight_Black.png"));
-    private final BufferedImage bishopBlack = ImageIO.read(new File("src\\resources\\Bishop_Black.png"));
-    private final BufferedImage rookBlack = ImageIO.read(new File("src\\resources\\Rook_Black.png"));
-    private final BufferedImage queenBlack = ImageIO.read(new File("src\\resources\\Queen_Black.png"));
+    private final BufferedImage kingBlack = ImageIO.read(new File("resources\\King_Black.png"));
+    private final BufferedImage pawnBlack = ImageIO.read(new File("resources\\Pawn_Black.png"));
+    private final BufferedImage knightBlack = ImageIO.read(new File("resources\\Knight_Black.png"));
+    private final BufferedImage bishopBlack = ImageIO.read(new File("resources\\Bishop_Black.png"));
+    private final BufferedImage rookBlack = ImageIO.read(new File("resources\\Rook_Black.png"));
+    private final BufferedImage queenBlack = ImageIO.read(new File("resources\\Queen_Black.png"));
 
     public Game(Controller controller) throws IOException {
         super(controller);
@@ -52,11 +52,11 @@ public class Game extends View {
 
         board = new Board();
 
-        ImagePanel lineMenuAfterColor = new ImagePanel(ImageIO.read(new File("src\\resources\\Line_Menu.png")));
+        ImagePanel lineMenuAfterColor = new ImagePanel(ImageIO.read(new File("resources\\Line_Menu.png")));
         lineMenuAfterColor.setBackground(new Color(0x404040));
         lineColor.add(lineMenuAfterColor);
 
-        ImagePanel lineMenuAfterState = new ImagePanel(ImageIO.read(new File("src\\resources\\Line_Menu.png")));
+        ImagePanel lineMenuAfterState = new ImagePanel(ImageIO.read(new File("resources\\Line_Menu.png")));
         lineMenuAfterState.setBackground(new Color(0x404040));
         lineState.add(lineMenuAfterState);
 

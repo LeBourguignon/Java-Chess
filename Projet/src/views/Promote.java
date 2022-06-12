@@ -35,16 +35,16 @@ public class Promote {
 
         if (board.getPieceSelect().getColor() == PieceColor.WHITE)
         {
-            knight.setImage(ImageIO.read(new File("src\\resources\\Knight_White.png")));
-            bishop.setImage(ImageIO.read(new File("src\\resources\\Bishop_White.png")));
-            rook.setImage(ImageIO.read(new File("src\\resources\\Rook_White.png")));
-            queen.setImage(ImageIO.read(new File("src\\resources\\Queen_White.png")));
+            knight.setImage(ImageIO.read(new File("resources\\Knight_White.png")));
+            bishop.setImage(ImageIO.read(new File("resources\\Bishop_White.png")));
+            rook.setImage(ImageIO.read(new File("resources\\Rook_White.png")));
+            queen.setImage(ImageIO.read(new File("resources\\Queen_White.png")));
         }
         else if (board.getPieceSelect().getColor() == PieceColor.BLACK) {
-            knight.setImage(ImageIO.read(new File("src\\resources\\Knight_Black.png")));
-            bishop.setImage(ImageIO.read(new File("src\\resources\\Bishop_Black.png")));
-            rook.setImage(ImageIO.read(new File("src\\resources\\Rook_Black.png")));
-            queen.setImage(ImageIO.read(new File("src\\resources\\Queen_Black.png")));
+            knight.setImage(ImageIO.read(new File("resources\\Knight_Black.png")));
+            bishop.setImage(ImageIO.read(new File("resources\\Bishop_Black.png")));
+            rook.setImage(ImageIO.read(new File("resources\\Rook_Black.png")));
+            queen.setImage(ImageIO.read(new File("resources\\Queen_Black.png")));
         }
 
         knight.addActionListener(new ActionListener() {
