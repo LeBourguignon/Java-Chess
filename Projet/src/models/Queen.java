@@ -1,12 +1,10 @@
 package models;
 
-import java.util.Arrays;
-
 public class Queen extends Piece{
     private final int[] displacementVectors = {-11, -10, -9, -1, 1, 9, 10, 11};
 
-    public Queen(Coordinate _coordinate, PieceColor _color){
-        super(_coordinate, PieceType.QUEEN, _color);
+    public Queen(Coordinate coordinate, PieceColor color){
+        super(coordinate, PieceType.QUEEN, color);
     }
 
     public int[][] getMove(Board board) {

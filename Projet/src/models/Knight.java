@@ -3,8 +3,8 @@ package models;
 public class Knight extends Piece{
     private final int[] displacementVectors = {-21, -19, -12, -8, 8, 12, 19, 21};
 
-    public Knight(Coordinate _coordinate, PieceColor _color){
-        super(_coordinate, PieceType.KNIGHT, _color);
+    public Knight(Coordinate coordinate, PieceColor color){
+        super(coordinate, PieceType.KNIGHT, color);
     }
 
     public int[][] getMove(Board board) {

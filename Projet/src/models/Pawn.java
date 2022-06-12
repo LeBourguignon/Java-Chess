@@ -1,8 +1,8 @@
 package models;
 
 public class Pawn extends Piece {
-    public Pawn(Coordinate _coordinate, PieceColor _color){
-        super(_coordinate, PieceType.PAWN, _color);
+    public Pawn(Coordinate coordinate, PieceColor color){
+        super(coordinate, PieceType.PAWN, color);
     }
 
     public int[][] getMove(Board board) {

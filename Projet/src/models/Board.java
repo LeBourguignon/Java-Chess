@@ -75,21 +75,21 @@ public class Board {
         return coordinate.x >= 0 && coordinate.x < pieceBoard.length && coordinate.y >= 0 && coordinate.y < pieceBoard[coordinate.x].length;
     }
 
-    private Coordinate findKing(PieceColor _player) {
+    private Coordinate findKing(PieceColor player) {
         for (Piece[] pieces : pieceBoard)
             for (Piece piece : pieces)
-                if (piece.getType() == PieceType.KING && piece.getColor() == _player)
+                if (piece.getType() == PieceType.KING && piece.getColor() == player)
                     return piece.getCoordinate();
         return null;
     }
 
-    private int testCheck(PieceColor _player) {
-        Coordinate king = findKing(_player);
+    private int testCheck(PieceColor player) {
+        Coordinate king = findKing(player);
 
         if (king != null) {
             for (Piece[] pieces : pieceBoard)
                 for (Piece piece : pieces)
-                    if (piece.getColor() != _player && piece.getType() != PieceType.VOID) {
+                    if (piece.getColor() != player && piece.getType() != PieceType.VOID) {
                         moveBoard = piece.getMove(this);
                     }
             if (moveBoard(king) == 0)

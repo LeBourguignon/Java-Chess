@@ -3,8 +3,8 @@ package models;
 public class Rook extends Piece{
     private final int[] displacementVectors = {-10, -1, 1, 10};
 
-    public Rook(Coordinate _coordinate, PieceColor _color){
-        super(_coordinate, PieceType.ROOK, _color);
+    public Rook(Coordinate coordinate, PieceColor color){
+        super(coordinate, PieceType.ROOK, color);
     }
 
     public int[][] getMove(Board board) {

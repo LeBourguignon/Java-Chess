@@ -3,8 +3,8 @@ package models;
 public class Bishop extends Piece{
     private final int[] displacementVectors = {-11, -9, 9, 11};
 
-    public Bishop(Coordinate _coordinate, PieceColor _color){
-        super(_coordinate, PieceType.BISHOP, _color);
+    public Bishop(Coordinate coordinate, PieceColor color){
+        super(coordinate, PieceType.BISHOP, color);
     }
 
     public int[][] getMove(Board board) {

@@ -8,9 +8,9 @@ public abstract class View extends Observer{
     protected Controller controller;
     protected ViewType viewType;
 
-    public View(Controller _controller) {
-        controller = _controller;
-        controller.addObserver(this);
+    public View(Controller controller) {
+        this.controller = controller;
+        this.controller.addObserver(this);
         viewType = ViewType.NONE;
     }
 

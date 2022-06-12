@@ -19,4 +19,6 @@ public class Controller extends Subject {
     }
 
     public ViewType getCurrentScreen() { return currentScreen; }
+
+    public void setCurrentScreen(ViewType type) { currentScreen = type; }
 }

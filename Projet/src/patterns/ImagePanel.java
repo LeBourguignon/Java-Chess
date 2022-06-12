@@ -21,7 +21,7 @@ public class ImagePanel extends JPanel{
         this.setPreferredSize(new Dimension(image.getWidth(), image.getHeight()));
     }
 
-    public ImagePanel(BufferedImage image) throws IOException {
+    public ImagePanel(BufferedImage image) {
         super(new FlowLayout(0, 0, 0));
         this.image = image;
         this.setPreferredSize(new Dimension(this.image.getWidth(), this.image.getHeight()));

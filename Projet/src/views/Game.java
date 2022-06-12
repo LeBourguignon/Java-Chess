@@ -9,7 +9,6 @@ import patterns.BoxPanel;
 import patterns.ImagePanel;
 import patterns.View;
 import patterns.ViewType;
-import views.Promote;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;

@@ -32,11 +32,11 @@ public abstract class Piece implements Cloneable {
         {91, 92, 93, 94, 95, 96, 97, 98}
     };
 
-    public Piece(Coordinate _coordinate, PieceType _type, PieceColor _color)
+    public Piece(Coordinate coordinate, PieceType type, PieceColor color)
     {
-        coordinate = _coordinate;
-        type = _type;
-        color = _color;
+        this.coordinate = coordinate;
+        this.type = type;
+        this.color = color;
     }
 
     public PieceType getType() { return type; }
