@@ -85,15 +85,19 @@ public class Board {
 
     private int testCheck(PieceColor _player) {
         Coordinate king = findKing(_player);
-        for (Piece[] pieces : pieceBoard)
-            for (Piece piece : pieces)
-                if (piece.getColor() != _player && piece.getType() != PieceType.VOID) {
-                    moveBoard = piece.getMove(this);
-                }
-        if (moveBoard(king) == 0)
-            return 1;
-        else
-            return 0;
+
+        if (king != null) {
+            for (Piece[] pieces : pieceBoard)
+                for (Piece piece : pieces)
+                    if (piece.getColor() != _player && piece.getType() != PieceType.VOID) {
+                        moveBoard = piece.getMove(this);
+                    }
+            if (moveBoard(king) == 0)
+                return 1;
+            else
+                return 0;
+        }
+        else return -1;
     }
 
     private void selectPiece(Coordinate coordinate) throws CloneNotSupportedException {
@@ -110,32 +114,52 @@ public class Board {
     }
 
     private void updateState() throws CloneNotSupportedException {
-        //TODO Promote
-
-        //TODO Update state ne marche pas quand il y a echec...
         int check = testCheck(player);
-        for (Piece[] pieces: pieceBoard)
-            for (Piece piece: pieces)
-                if (piece.getColor() == player) {
-                    selectPiece(piece.getCoordinate());
-                    for (int[] ints: moveBoard)
-                        for (int anInt: ints)
-                            if (anInt == 2) {
-                                if (check == 1)
-                                    state = BoardState.PLAYING;
-                                else
-                                    state = BoardState.CHECK;
-                                pieceSelect = null;
-                                resetMoveBoard();
-                                return;
-                            }
-                    pieceSelect = null;
-                    resetMoveBoard();
-                }
-        if (check == 1)
-            state = BoardState.STALEMATE;
-        else
+        if (check != -1) {
+            for (Piece[] pieces : pieceBoard)
+                for (Piece piece : pieces)
+                    if (piece.getColor() == player) {
+                        selectPiece(piece.getCoordinate());
+                        for (int[] ints : moveBoard)
+                            for (int anInt : ints)
+                                if (anInt == 2) {
+                                    pieceSelect = null;
+                                    resetMoveBoard();
+                                    if (check == 1)
+                                        state = BoardState.PLAYING;
+                                    else {
+                                        state = BoardState.CHECK;
+                                        Coordinate king = findKing(player);
+                                        moveBoard[king.x][king.y] = -1;
+                                    }
+                                    return;
+                                }
+                        pieceSelect = null;
+                        resetMoveBoard();
+                    }
+            if (check == 1)
+                state = BoardState.STALEMATE;
+            else {
+                state = BoardState.CHECKMATE;
+                Coordinate king = findKing(player);
+                moveBoard[king.x][king.y] = -1;
+            }
+        }
+        else {
             state = BoardState.CHECKMATE;
+            Coordinate king = findKing(player);
+            moveBoard[king.x][king.y] = -1;
+        }
+    }
+
+    private void nextMove() {
+        resetMoveBoard();
+        pieceSelect = null;
+        if (player == PieceColor.WHITE)
+            player = PieceColor.BLACK;
+        else
+            player = PieceColor.WHITE;
+        ++nbMove;
     }
 
     private boolean movePiece(Coordinate coordinate) {
@@ -172,30 +196,59 @@ public class Board {
             }
         }
 
-        resetMoveBoard();
-        pieceSelect = null;
-        if (player == PieceColor.WHITE)
-            player = PieceColor.BLACK;
-        else
-            player = PieceColor.WHITE;
-        ++nbMove;
-        return true;
+        if (pieceSelect.getType() == PieceType.PAWN && ((pieceSelect.getColor() == PieceColor.WHITE && pieceSelect.getCoordinate().x == 0) || (pieceSelect.getColor() == PieceColor.BLACK && pieceSelect.getCoordinate().x == 7))) {
+            state = BoardState.PROMOTE;
+            resetMoveBoard();
+            moveBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = 1;
+            return false;
+        }
+        else {
+            nextMove();
+            return true;
+        }
     }
 
     public void clicOnBoard(Coordinate coordinate) throws CloneNotSupportedException {
-        if (state != BoardState.PLAYING && state != BoardState.CHECK);
+        if (state == BoardState.PROMOTE && pieceSelect != null)
+            switch (coordinate.x) {
+                case -1:
+                    pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = pieceSelect.promote(PieceType.KNIGHT);
+                    nextMove();
+                    updateState();
+                    break;
+
+                case -2:
+                    pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = pieceSelect.promote(PieceType.BISHOP);
+                    nextMove();
+                    updateState();
+                    break;
+
+                case -3:
+                    pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = pieceSelect.promote(PieceType.ROOK);
+                    nextMove();
+                    updateState();
+                    break;
+
+                case -4:
+                    pieceBoard[pieceSelect.getCoordinate().x][pieceSelect.getCoordinate().y] = pieceSelect.promote(PieceType.QUEEN);
+                    nextMove();
+                    updateState();
+                    break;
+
+                default:
+            }
+        else if (state != BoardState.PLAYING && state != BoardState.CHECK);
         else if(!onBoard(coordinate));
         else if(pieceBoard(coordinate) == pieceSelect) {
             pieceSelect = null;
             resetMoveBoard();
+            updateState();
         }
         else if (pieceSelect == null && pieceBoard(coordinate).getColor() == player) {
             selectPiece(coordinate);
         }
         else if (pieceSelect != null && movePiece(coordinate))
             updateState();
-
-        //TODO Promote
     }
 
     public String toString() {

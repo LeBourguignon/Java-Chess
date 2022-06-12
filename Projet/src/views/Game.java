@@ -2,12 +2,14 @@ package views;
 
 import controllers.Controller;
 import models.Board;
+import models.BoardState;
 import models.Coordinate;
 import models.PieceColor;
 import patterns.BoxPanel;
 import patterns.ImagePanel;
 import patterns.View;
 import patterns.ViewType;
+import views.Promote;
 
 import javax.imageio.ImageIO;
 import javax.swing.*;
@@ -19,17 +21,17 @@ import java.io.File;
 import java.io.IOException;
 
 public class Game extends View {
-    public JPanel main;
+    private JPanel main;
     private JPanel chess;
-    private JButton recommencerButton; //TODO
-    private JButton quitterButton; //TODO
+    private JButton recommencerButton;
+    private JButton quitterButton;
     private JPanel lineColor;
     private JPanel lineState;
     private JLabel color;
     private JLabel state;
     private JLabel nbMove;
 
-    private final Board board;
+    private Board board;
 
     private final BufferedImage kingWhite = ImageIO.read(new File("src\\resources\\King_White.png"));
     private final BufferedImage pawnWhite = ImageIO.read(new File("src\\resources\\Pawn_White.png"));
@@ -59,6 +61,31 @@ public class Game extends View {
         lineMenuAfterState.setBackground(new Color(0x404040));
         lineState.add(lineMenuAfterState);
 
+        recommencerButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous recommencer?", "Java Chess - Recommencer", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                    board = new Board();
+                    try {
+                        controller.toNotify();
+                    } catch (IOException ex) {
+                        throw new RuntimeException(ex);
+                    }
+                }
+            }
+        });
+
+        quitterButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                int reply = JOptionPane.showConfirmDialog(null, "Voulez-vous quitter?", "Java Chess - Quitter", JOptionPane.YES_NO_OPTION);
+                if (reply == JOptionPane.YES_OPTION) {
+                   System.exit(0);
+                }
+            }
+        });
+
         chess.setLayout(new GridLayout(board.getPieceBoard().length, board.getPieceBoard()[0].length, 0, 0));
 
         toNotify();
@@ -68,9 +95,12 @@ public class Game extends View {
         updateWindow();
         updateChess();
 
-        controller.frame.setContentPane(main);
+        controller.frame.setContentPane(this.main);
         controller.frame.pack();
         controller.frame.setVisible(true);
+
+        if (board.getState() == BoardState.PROMOTE)
+            updatePromote();
     }
 
     private void updateWindow() {
@@ -105,7 +135,7 @@ public class Game extends View {
         nbMove.setText("" + board.getNbMove());
     }
 
-    private void updateChess() throws IOException {
+    private void updateChess() {
         boolean state = false;
         chess.removeAll();
         for (int x = 0; x < board.getPieceBoard().length; ++x) {
@@ -214,5 +244,9 @@ public class Game extends View {
             }
             state = !state;
         }
+    }
+
+    private void updatePromote() throws IOException {
+        Promote promote = new Promote(controller, board);
     }
 }

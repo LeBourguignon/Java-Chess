@@ -51,9 +51,38 @@ public abstract class Piece implements Cloneable {
 
     public abstract int[][] getMove(Board board);
 
-    public void moved(Coordinate _coordinate) {
-        coordinate = _coordinate;
+    public void moved(Coordinate coordinate) {
+        this.coordinate = coordinate;
         ++nbMove;
+    }
+
+    public Piece promote(PieceType type) {
+        if (this.type != PieceType.PAWN)
+            return this;
+
+        Piece piece;
+        switch (type) {
+            case KNIGHT:
+                piece = new Knight(coordinate, color);
+                break;
+
+            case BISHOP:
+                piece = new Bishop(coordinate, color);
+                break;
+
+            case ROOK:
+                piece = new Rook(coordinate, color);
+                break;
+
+            case QUEEN:
+                piece = new Queen(coordinate, color);
+                break;
+
+            default:
+                piece = this;
+                break;
+        }
+        return piece;
     }
 
     public Piece clone() throws CloneNotSupportedException {
