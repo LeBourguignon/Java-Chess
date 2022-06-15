@@ -169,7 +169,7 @@ public class Game extends View {
                         box.setBackground(new Color(102, 45, 145));
                         break;
 
-                    case 5:
+                    case -1:
                         box.setBackground(new Color(237, 28, 36));
                         break;
                 }
